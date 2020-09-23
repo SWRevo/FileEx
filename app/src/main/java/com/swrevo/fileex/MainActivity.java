@@ -266,15 +266,20 @@ public class MainActivity extends  AppCompatActivity  {
 	}
 	
 	@Override
-	protected void onActivityResult(int _requestCode, int _resultCode, Intent _data) {
-		
+	protected void onActivityResult(int _requestCode, int _resultCode, Intent _data) {
 		super.onActivityResult(_requestCode, _resultCode, _data);
 		
-		switch (_requestCode) {
-			
-			default:
-			break;
-		}
+        if (_requestCode == EX_FILE_PICKER_RESULT) {
+            ExFilePickerResult result = ExFilePickerResult.getFromIntent(_data);
+            if (result != null && result.getCount() > 0) {
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < result.getCount(); i++) {
+                    stringBuilder.append(result.getNames().get(i));
+                    if (i < result.getCount() - 1) stringBuilder.append(", ");
+                }
+                tv1.setText("Count: " + result.getCount() + "\n" + "Path: " + result.getPath() + "\n" + "Selected: " + stringBuilder.toString());
+            }
+        }
 	}
 	
 	@Deprecated
